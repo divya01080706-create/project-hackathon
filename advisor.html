@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Financial Advisor Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Panel styles */
+        .panel { 
+            display: none; 
+            margin-top: 20px; 
+            text-align: left;
+        }
+        .options button {
+            margin: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+        }
+        .options button:hover {
+            background-color: #ff4c4c;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+        }
+        th {
+            background-color: #e2f0b6;
+        }
+        /* Form styling */
+        form {
+            max-width: 600px;
+            margin-top: 15px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button.submit-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button.submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Financial Advisor Dashboard</h1>
+        <a href="index.html">← Back to Home</a>
+    </header>
+
+    <section>
+        <p>Financial Advisors guide users in making smart investment decisions.</p>
+        <div class="options">
+            <button onclick="showPanel('advicePanel')">Give Advice</button>
+            <button onclick="showPanel('learningPanel')">Create Learning Module</button>
+            <button onclick="showPanel('sessionPanel')">Schedule Session</button>
+        </div>
+
+        <!-- Give Advice Panel -->
+        <div id="advicePanel" class="panel">
+            <h2>Give Advice</h2>
+            <form id="adviceForm">
+                <label for="advisorName">Advisor Name:</label>
+                <input type="text" id="advisorName" name="advisorName" placeholder="Enter your name" required>
+
+                <label for="userName">User Name:</label>
+                <input type="text" id="userName" name="userName" placeholder="Enter user's name" required>
+
+                <label for="topic">Topic:</label>
+                <select id="topic" name="topic" required>
+                    <option value="">Select Topic</option>
+                    <option value="Mutual Funds">Mutual Funds</option>
+                    <option value="Equity Investment">Equity Investment</option>
+                    <option value="Retirement Planning">Retirement Planning</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="advice">Advice Details:</label>
+                <textarea id="advice" name="advice" rows="5" placeholder="Enter advice here..." required></textarea>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <button type="submit" class="submit-btn">Submit Advice</button>
+            </form>
+
+            <!-- Submitted Advice Table -->
+            <h3>Submitted Advice</h3>
+            <table id="adviceTable">
+                <tr>
+                    <th>Advisor</th>
+                    <th>User</th>
+                    <th>Topic</th>
+                    <th>Advice</th>
+                    <th>Date</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Create Learning Module Panel -->
+        <div id="learningPanel" class="panel">
+            <h2>Create Learning Module</h2>
+            <form id="learningForm">
+                <label for="moduleId">Module ID:</label>
+                <input type="text" id="moduleId" name="moduleId" placeholder="Enter Module ID" required>
+
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter Module Title" required>
+
+                <label for="topicLM">Topic:</label>
+                <input type="text" id="topicLM" name="topicLM" placeholder="Enter Topic" required>
+
+                <label for="createdOn">Created On:</label>
+                <input type="date" id="createdOn" name="createdOn" required>
+
+                <button type="submit" class="submit-btn">Create Module</button>
+            </form>
+
+            <!-- Learning Modules Table -->
+            <h3>Existing Modules</h3>
+            <table id="learningTable">
+                <tr>
+                    <th>Module ID</th>
+                    <th>Title</th>
+                    <th>Topic</th>
+                    <th>Created On</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Schedule Session Panel -->
+        <div id="sessionPanel" class="panel">
+            <h2>Schedule Session</h2>
+            <form id="sessionForm">
+                <label for="advisorS">Advisor Name:</label>
+                <input type="text" id="advisorS" name="advisorS" placeholder="Enter your name" required>
+
+                <label for="userS">User Name:</label>
+                <input type="text" id="userS" name="userS" placeholder="Enter user's name" required>
+
+                <label for="sessionDate">Date:</label>
+                <input type="date" id="sessionDate" name="sessionDate" required>
+
+                <label for="mode">Mode:</label>
+                <select id="mode" name="mode" required>
+                    <option value="">Select Mode</option>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                </select>
+
+                <button type="submit" class="submit-btn">Schedule Session</button>
+            </form>
+
+            <!-- Scheduled Sessions Table -->
+            <h3>Scheduled Sessions</h3>
+            <table id="sessionTable">
+                <tr>
+                    <th>Advisor</th>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th>Mode</th>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        // Show selected panel
+        function showPanel(panelId) {
+            const panels = document.querySelectorAll('.panel');
+            panels.forEach(p => p.style.display = 'none');
+
+            const activePanel = document.getElementById(panelId);
+            if(activePanel) {
+                activePanel.style.display = 'block';
+            }
+        }
+
+        // Submit Advice Form
+        document.getElementById('adviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const advisor = document.getElementById('advisorName').value;
+            const user = document.getElementById('userName').value;
+            const topic = document.getElementById('topic').value;
+            const advice = document.getElementById('advice').value;
+            const date = document.getElementById('date').value;
+            const table = document.getElementById('adviceTable');
+            const row = table.insertRow(-1);
+            row.insertCell(0).innerText = advisor;
+            row.insertCell(1).innerText = user;
+            row.insertCell(2).innerText = topic;
+            row.insertCell(3).innerText = advice;
+            row.insertCell(4).innerText = date;
+            this.reset();
+        });
+
+        // Submit Learning Module Form
+        document.getElementById('learningForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('moduleId').value;
+            const title = document.getElementById('title').value;
+            const topic = document.getElementById('topicLM').value;
+            const date = document.getElementById('createdOn').value;
+            const table = document.getElementById('learningTable');
+            const row = table.insertRow(-1);
+            row.insertCell(0).innerText = id;
+            row.insertCell(1).innerText = title;
+            row.insertCell(2).innerText = topic;
+            row.insertCell(3).innerText = date;
+            this.reset();
+        });
+
+        // Submit Session Form
+        document.getElementById('sessionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const advisor = document.getElementById('advisorS').value;
+            const user = document.getElementById('userS').value;
+            const date = document.getElementById('sessionDate').value;
+            const mode = document.getElementById('mode').value;
+            const table = document.getElementById('sessionTable');
+            const row = table.insertRow(-1);
+            row.insertCell(0).innerText = advisor;
+            row.insertCell(1).innerText = user;
+            row.insertCell(2).innerText = date;
+            row.insertCell(3).innerText = mode;
+            this.reset();
+        });
+
+        // Show Give Advice panel by default
+        window.onload = function() {
+            showPanel('advicePanel');
+        }
+    </script>
+</body>
+</html>

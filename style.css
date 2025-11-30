@@ -1,0 +1,86 @@
+/* ===== Common Body & Background ===== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f3eac7; /* Soft Warm Beige */
+    color: #4a4a4a; /* Dark Grey text (not black) */
+}
+
+/* ===== Header ===== */
+header {
+    background: #d6f5e3; /* Light mint green */
+    color: #4a4a4a;
+    padding: 25px;
+    text-align: center;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 20px;
+}
+
+/* ===== Navigation ===== */
+nav {
+    background: #f7d9d9; /* Soft pastel salmon */
+}
+nav ul li a {
+    color: #4a4a4a;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px;
+    display: block;
+}
+nav ul li a:hover {
+    background: #e8b7d4; /* Lavender hover */
+    border-radius: 4px;
+}
+
+/* ===== Sections / Boxes ===== */
+section, .login-container {
+    padding: 25px;
+    margin: 20px auto;
+    background: #e4f2d9; /* Light pastel green */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    color: #4a4a4a;
+    max-width: 900px;
+}
+
+/* Section headings */
+section h2 {
+    color: #6a7f54; /* moss green heading */
+    margin-bottom: 10px;
+}
+
+/* ===== Buttons ===== */
+.options button {
+    background: #f2b5d4; /* Rose pastel */
+    color: #4a4a4a;
+}
+.options button:hover {
+    background: #e48fb8; /* darker rose */
+}
+
+/* ===== Footer ===== */
+footer {
+    background: #e6d7b9; /* almond tone */
+    color: #4a4a4a;
+    text-align: center;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 12px 12px 0 0;
+}
+
+/* ===== Login Page ===== */
+.login-container button {
+    background: #c5d8a4; /* Light leaf green */
+    color: #4a4a4a;
+}
+.login-container button:hover {
+    background: #9fb87a; 
+}
+
+.login-container input {
+    border: 2px solid #e8c5e5; /* Pink lavender border */
+}
+
+.error {
+    color: #d46a6a; /* Soft brick red */
+}

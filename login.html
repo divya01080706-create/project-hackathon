@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - Mutual Funds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Mutual Funds Admin Login</h1>
+    </header>
+
+    <section class="login-container">
+        <form id="loginForm">
+            <h2>Admin Login</h2>
+
+            <label>Username</label>
+            <input type="text" id="username" placeholder="Enter Username" required>
+
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter Password" required>
+
+            <button type="submit">Login</button>
+
+            <p id="message"></p>
+
+            <p>Not Registered? <a href="signup.html">Sign Up</a></p>
+        </form>
+    </section>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const message = document.getElementById("message");
+
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const user = document.getElementById("username").value.trim();
+            const pass = document.getElementById("password").value.trim();
+
+            // Dummy admin credentials (change if needed)
+            const ADMIN_USER = "admin";
+            const ADMIN_PASS = "admin123";
+
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                message.style.color = "green";
+                message.innerText = "Login Successful! Redirecting...";
+
+                setTimeout(() => {
+                    window.location.href = "admin.html"; // redirect to admin panel
+                }, 1000);
+            } else {
+                message.style.color = "red";
+                message.innerHTML = "Invalid credentials! <br> Not registered? <a href='signup.html'>Sign Up</a>";
+            }
+        });
+    </script>
+</body>
+</html>

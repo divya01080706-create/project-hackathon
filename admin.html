@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mutual Funds Admin Dashboard</title>
+    <style>
+        /* ---------- BASIC PAGE STYLE ---------- */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fdeecf;
+        }
+
+        header {
+            background-color: #d7ee79;
+            text-align: center;
+            padding: 20px 0 40px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            position: relative;
+        }
+
+        header a.logout {
+            position: absolute;
+            right: 40px;
+            top: 30px;
+            color: #4b0082;
+        }
+
+        .panel {
+            background-color: #d7ee79;
+            width: 85%;
+            margin: -20px auto 40px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-row {
+            margin: 15px 0 25px;
+        }
+
+        .btn-row button {
+            padding: 8px 16px;
+            margin-right: 5px;
+            border: 1px solid #000;
+            background-color: #85b8ff;
+            cursor: pointer;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        h3 {
+            margin-top: 10px;
+        }
+
+        .section {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* ---------- FORM STYLE ---------- */
+        form {
+            background-color: #f7ffd1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        form .row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        form .row label {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        form .row input,
+        form .row select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+            margin-top: 3px;
+        }
+
+        form button {
+            margin-top: 8px;
+            padding: 8px 16px;
+            background-color: #4caf50;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* ---------- TABLE STYLE ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #e9ffb5;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #9bb36b;
+            text-align: left;
+        }
+
+        th {
+            background-color: #c6df73;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Admin Dashboard
+    <a href="#" class="logout">Logout</a>
+</header>
+
+<div class="panel">
+    <p>Welcome to the Mutual Funds Admin Panel.</p>
+
+    <!-- TOP NAV BUTTONS -->
+    <div class="btn-row">
+        <button onclick="showSection('usersSection')">View Users</button>
+        <button onclick="showSection('fundsSection')">Manage Mutual Funds</button>
+        <button onclick="showSection('reportsSection')">Investment Reports</button>
+    </div>
+
+    <!-- ========== VIEW USERS SECTION ========== -->
+    <div id="usersSection" class="section active">
+        <h2>Registered Users</h2>
+
+        <!-- Add User Form -->
+        <h3>Add New User</h3>
+        <form id="userForm">
+            <div class="row">
+                <label>
+                    User ID
+                    <input type="text" id="userId" placeholder="U004" required>
+                </label>
+                <label>
+                    Name
+                    <input type="text" id="userName" placeholder="Rahul Sharma" required>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    Email
+                    <input type="email" id="userEmail" placeholder="rahul@example.com" required>
+                </label>
+                <label>
+                    KYC Status
+                    <select id="userKyc" required>
+                        <option value="Verified">Verified</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </label>
+            </div>
+            <button type="submit">Add User</button>
+        </form>
+
+        <!-- Users Table -->
+        <table id="userTable">
+            <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>KYC Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sample Initial Data -->
+            <tr>
+                <td>U001</td>
+                <td>Rahul Sharma</td>
+                <td>rahul@example.com</td>
+                <td>Verified</td>
+            </tr>
+            <tr>
+                <td>U002</td>
+                <td>Priya Iyer</td>
+                <td>priya@example.com</td>
+                <td>Pending</td>
+            </tr>
+            <tr>
+                <td>U003</td>
+                <td>Arjun Rao</td>
+                <td>arjun@example.com</td>
+                <td>Verified</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========== MANAGE MUTUAL FUNDS SECTION ========== -->
+    <div id="fundsSection" class="section">
+        <h2>Manage Mutual Funds</h2>
+
+        <!-- Add Fund Form -->
+        <h3>Add New Mutual Fund</h3>
+        <form id="fundForm">
+            <div class="row">
+                <label>
+                    Fund ID
+                    <input type="text" id="fundId" placeholder="F001" required>
+                </label>
+
+                <!-- 🔻 CHANGED: Fund Name is now a dropdown 🔻 -->
+                <label>
+                    Fund Name
+                    <select id="fundName" required>
+                        <option value="">Select Fund Name</option>
+                        <option value="Bluechip Growth Fund">Bluechip Growth Fund</option>
+                        <option value="Equity Growth Fund">Equity Growth Fund</option>
+                        <option value="Balanced Advantage Fund">Balanced Advantage Fund</option>
+                        <option value="Debt Income Fund">Debt Income Fund</option>
+                    </select>
+                </label>
+                <!-- 🔺 END CHANGE 🔺 -->
+            </div>
+            <div class="row">
+                <label>
+                    Category
+                    <select id="fundCategory" required>
+                        <option value="Equity">Equity</option>
+                        <option value="Debt">Debt</option>
+                        <option value="Hybrid">Hybrid</option>
+                    </select>
+                </label>
+                <label>
+                    Risk Level
+                    <select id="fundRisk" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    NAV (₹)
+                    <input type="number" id="fundNav" placeholder="150.25" step="0.01" required>
+                </label>
+            </div>
+            <button type="submit">Add Fund</button>
+        </form>
+
+        <!-- Funds Table -->
+        <table id="fundTable">
+            <thead>
+            <tr>
+                <th>Fund ID</th>
+                <th>Fund Name</th>
+                <th>Category</th>
+                <th>Risk Level</th>
+                <th>NAV (₹)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sample Fund -->
+            <tr>
+                <td>F001</td>
+                <td>Equity Growth Fund</td>
+                <td>Equity</td>
+                <td>High</td>
+                <td>125.50</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========== INVESTMENT REPORTS SECTION ========== -->
+    <div id="reportsSection" class="section">
+        <h2>Investment Reports</h2>
+
+        <!-- Add Report Form (like user submitting report) -->
+        <h3>Add New Investment Report</h3>
+        <form id="reportForm">
+            <div class="row">
+                <label>
+                    Report ID
+                    <input type="text" id="reportId" placeholder="R001" required>
+                </label>
+                <label>
+                    User Name
+                    <input type="text" id="reportUser" placeholder="Rahul Sharma" required>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    Fund Name
+                    <input type="text" id="reportFund" placeholder="Equity Growth Fund" required>
+                </label>
+                <label>
+                    Amount Invested (₹)
+                    <input type="number" id="reportAmount" placeholder="50000" required>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    Date
+                    <input type="date" id="reportDate" required>
+                </label>
+                <label>
+                    Status
+                    <select id="reportStatus" required>
+                        <option value="Submitted">Submitted</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </label>
+            </div>
+            <button type="submit">Add Report</button>
+        </form>
+
+        <!-- Reports Table -->
+        <table id="reportTable">
+            <thead>
+            <tr>
+                <th>Report ID</th>
+                <th>User Name</th>
+                <th>Fund Name</th>
+                <th>Amount (₹)</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sample Report -->
+            <tr>
+                <td>R001</td>
+                <td>Rahul Sharma</td>
+                <td>Equity Growth Fund</td>
+                <td>50000</td>
+                <td>2025-11-01</td>
+                <td>Approved</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // ---------- SECTION SWITCHING ----------
+    function showSection(id) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    // ---------- ADD USER ----------
+    document.getElementById('userForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById('userId').value.trim();
+        const name = document.getElementById('userName').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        const kyc = document.getElementById('userKyc').value;
+
+        if (!id || !name || !email) {
+            alert('Please fill all user details.');
+            return;
+        }
+
+        const table = document.getElementById('userTable').querySelector('tbody');
+        const row = table.insertRow();
+        row.insertCell(0).textContent = id;
+        row.insertCell(1).textContent = name;
+        row.insertCell(2).textContent = email;
+        row.insertCell(3).textContent = kyc;
+
+        this.reset();
+    });
+
+    // ---------- ADD FUND ----------
+    document.getElementById('fundForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById('fundId').value.trim();
+        const name = document.getElementById('fundName').value;  // now from <select>
+        const category = document.getElementById('fundCategory').value;
+        const risk = document.getElementById('fundRisk').value;
+        const nav = document.getElementById('fundNav').value;
+
+        if (!id || !name || !nav) {
+            alert('Please fill all fund details.');
+            return;
+        }
+
+        const table = document.getElementById('fundTable').querySelector('tbody');
+        const row = table.insertRow();
+        row.insertCell(0).textContent = id;
+        row.insertCell(1).textContent = name;
+        row.insertCell(2).textContent = category;
+        row.insertCell(3).textContent = risk;
+        row.insertCell(4).textContent = nav;
+
+        this.reset();
+    });
+
+    // ---------- ADD REPORT ----------
+    document.getElementById('reportForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById('reportId').value.trim();
+        const user = document.getElementById('reportUser').value.trim();
+        const fund = document.getElementById('reportFund').value.trim();
+        const amount = document.getElementById('reportAmount').value;
+        const date = document.getElementById('reportDate').value;
+        const status = document.getElementById('reportStatus').value;
+
+        if (!id || !user || !fund || !amount || !date) {
+            alert('Please fill all report details.');
+            return;
+        }
+
+        const table = document.getElementById('reportTable').querySelector('tbody');
+        const row = table.insertRow();
+        row.insertCell(0).textContent = id;
+        row.insertCell(1).textContent = user;
+        row.insertCell(2).textContent = fund;
+        row.insertCell(3).textContent = amount;
+        row.insertCell(4).textContent = date;
+        row.insertCell(5).textContent = status;
+
+        this.reset();
+    });
+</script>
+
+</body>
+</html>

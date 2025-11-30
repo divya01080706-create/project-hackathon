@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - Mutual Funds Platform</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fdeecf;
+        }
+
+        header {
+            background-color: #d7ee79;
+            text-align: center;
+            padding: 20px 0 30px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 40px auto;
+            background-color: #fff9d9;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #355300;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+        }
+
+        button {
+            margin-top: 5px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .link-btn {
+            background: none;
+            color: #1b5e20;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            margin-left: 5px;
+        }
+
+        .small-text {
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .success {
+            color: green;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .center {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Admin Access
+</header>
+
+<div class="container">
+    <!-- LOGIN FORM -->
+    <div id="loginBox">
+        <h2>Admin Login</h2>
+        <p class="small-text">Use your registered admin credentials to continue.</p>
+
+        <div id="loginMsg" class="error"></div>
+
+        <form id="loginForm">
+            <label>Username
+                <input type="text" id="loginUsername" required>
+            </label>
+
+            <label>Password
+                <input type="password" id="loginPassword" required>
+            </label>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="small-text">
+            Not registered yet?
+            <button class="link-btn" onclick="showRegister()">Register now</button>
+        </p>
+
+        <div class="center">
+            <button onclick="window.location.href='index.html'">⬅ Back to Role Selection</button>
+        </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerBox" style="display:none;">
+        <h2>Register New Admin</h2>
+        <p class="small-text">Create a new admin account.</p>
+
+        <div id="regMsg" class=""></div>
+
+        <form id="registerForm">
+            <label>Choose Username
+                <input type="text" id="regUsername" required>
+            </label>
+
+            <label>Choose Password
+                <input type="password" id="regPassword" required>
+            </label>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="small-text">
+            Already have an account?
+            <button class="link-btn" onclick="showLogin()">Back to Login</button>
+        </p>
+
+        <div class="center">
+            <button onclick="window.location.href='index.html'">⬅ Back to Role Selection</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- toggle between Login and Register ----------
+    function showRegister() {
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('registerBox').style.display = 'block';
+        document.getElementById('loginMsg').textContent = '';
+        document.getElementById('regMsg').textContent = '';
+    }
+
+    function showLogin() {
+        document.getElementById('loginBox').style.display = 'block';
+        document.getElementById('registerBox').style.display = 'none';
+        document.getElementById('loginMsg').textContent = '';
+        document.getElementById('regMsg').textContent = '';
+    }
+
+    // we save admins in browser localStorage under key "adminUsers"
+    function getAdminUsers() {
+        const data = localStorage.getItem('adminUsers');
+        return data ? JSON.parse(data) : [];
+    }
+
+    function saveAdminUsers(users) {
+        localStorage.setItem('adminUsers', JSON.stringify(users));
+    }
+
+    // OPTIONAL: create one default admin (admin / admin123) if none exist
+    (function seedDefaultAdmin() {
+        const users = getAdminUsers();
+        if (users.length === 0) {
+            users.push({ username: 'admin', password: 'admin123' });
+            saveAdminUsers(users);
+        }
+    })();
+
+    // ---------- LOGIN ----------
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const msgBox = document.getElementById('loginMsg');
+
+        const users = getAdminUsers();
+        const user = users.find(u => u.username === username);
+
+        if (!user) {
+            msgBox.textContent = 'User not found. Please register first.';
+            return;
+        }
+
+        if (user.password !== password) {
+            msgBox.textContent = 'Incorrect password.';
+            return;
+        }
+
+        msgBox.textContent = '';
+        // login success → open admin dashboard
+        window.location.href = 'admin-dashboard.html';
+    });
+
+    // ---------- REGISTER ----------
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('regUsername').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        const msgBox = document.getElementById('regMsg');
+
+        let users = getAdminUsers();
+        const exists = users.some(u => u.username === username);
+
+        if (exists) {
+            msgBox.className = 'error';
+            msgBox.textContent = 'Username already exists. Choose another.';
+            return;
+        }
+
+        users.push({ username, password });
+        saveAdminUsers(users);
+
+        msgBox.className = 'success';
+        msgBox.textContent = 'Registration successful! Go back to login to continue.';
+
+        // clear fields
+        document.getElementById('regUsername').value = '';
+        document.getElementById('regPassword').value = '';
+
+        // after short delay you can send them to login screen
+        setTimeout(showLogin, 1200);
+    });
+</script>
+
+</body>
+</html>

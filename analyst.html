@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Analyst Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .panel { display: none; margin-top: 20px; text-align: left; }
+        .options button {
+            margin: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+        }
+        .options button:hover { background-color: #ff4c4c; }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td { border: 1px solid #999; padding: 8px; }
+        th { background-color: #e2f0b6; }
+
+        form { max-width: 600px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button.submit-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button.submit-btn:hover { background-color: #3e9143; }
+        .download-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover { background-color: #0062cc; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Data Analyst Dashboard</h1>
+    <a href="index.html">← Back to Home</a>
+</header>
+
+<section>
+    <p>Data Analysts analyze trends and generate investment performance reports.</p>
+
+    <div class="options">
+        <button onclick="showPanel('trendsPanel')">View Trends</button>
+        <button onclick="showPanel('updatePanel')">Update Data</button>
+        <button onclick="showPanel('reportPanel')">Download Report</button>
+    </div>
+
+    <!-- View Trends Panel -->
+    <div id="trendsPanel" class="panel">
+        <h2>Market Trends Overview</h2>
+        <table id="trendsTable">
+            <tr>
+                <th>Fund</th>
+                <th>1-Year Return</th>
+                <th>Trend Status</th>
+            </tr>
+            <tr>
+                <td>Growth Equity Fund</td>
+                <td>12%</td>
+                <td>Positive ↑</td>
+            </tr>
+            <tr>
+                <td>Balanced Advantage Fund</td>
+                <td>8%</td>
+                <td>Stable →</td>
+            </tr>
+            <tr>
+                <td>Short Term Debt Fund</td>
+                <td>6%</td>
+                <td>Low Volatility ↓</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Update Data Panel -->
+    <div id="updatePanel" class="panel">
+        <h2>Update Fund NAV Information</h2>
+
+        <form id="fundForm">
+            <label for="fundId">Fund ID:</label>
+            <input type="text" id="fundId" required>
+
+            <label for="fundName">Fund Name:</label>
+            <input type="text" id="fundName" required>
+
+            <label for="newNav">New NAV (₹):</label>
+            <input type="number" id="newNav" required>
+
+            <button type="submit" class="submit-btn">Update Data</button>
+        </form>
+
+        <h3>Updated NAV Data</h3>
+        <table id="fundTable">
+            <tr>
+                <th>Fund ID</th>
+                <th>Fund Name</th>
+                <th>Updated NAV (₹)</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Download Report Panel -->
+    <div id="reportPanel" class="panel">
+        <h2>Download Latest Reports</h2>
+        <table>
+            <tr>
+                <th>Report Name</th>
+                <th>Download</th>
+            </tr>
+            <tr>
+                <td>Quarterly Market Performance - Q3 2025</td>
+                <td><button class="download-btn" onclick="downloadReport()">Download</button></td>
+            </tr>
+            <tr>
+                <td>AUM Growth Analysis - FY 2024-25</td>
+                <td><button class="download-btn" onclick="downloadReport()">Download</button></td>
+            </tr>
+        </table>
+    </div>
+
+</section>
+
+<script>
+    function showPanel(id) {
+        document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+    }
+
+    document.getElementById('fundForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('fundId').value;
+        const name = document.getElementById('fundName').value;
+        const nav = document.getElementById('newNav').value;
+
+        const row = document.getElementById('fundTable').insertRow(-1);
+        row.insertCell(0).innerText = id;
+        row.insertCell(1).innerText = name;
+        row.insertCell(2).innerText = nav;
+
+        this.reset();
+    });
+
+    function downloadReport() {
+        alert("📥 Report Download Started!");
+    }
+
+    // Default panel visible
+    window.onload = () => showPanel('trendsPanel');
+</script>
+
+</body>
+</html>

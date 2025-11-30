@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Investor Dashboard</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background-color: #fdeecf; }
+        header { background-color: #85c976; text-align: center; padding: 20px 0 40px; font-size: 28px; font-weight: bold; color: #fff; position: relative; }
+        header a { position: absolute; right: 40px; top: 30px; color: #4b0082; font-size: 15px; }
+        .panel { background-color: #b8e59b; width: 85%; margin: -20px auto 40px; padding: 30px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .btn-row { margin-bottom: 20px; }
+        .btn-row button { padding: 8px 16px; margin-right: 6px; border: 1px solid #000; background-color: #4da6ff; cursor: pointer; }
+        .section { display: none; }
+        .section.active { display: block; }
+        h2 { color: #fff; margin-top: 0; }
+        table { width: 100%; background-color: #e4ffc7; border-collapse: collapse; }
+        th, td { border: 1px solid #75a65e; padding: 10px; }
+        th { background-color: #9bd781; }
+        form { background-color: #efffdc; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .row { display: flex; gap: 10px; margin-bottom: 10px; }
+        input, select { width: 100%; padding: 6px; }
+        form button { background: #007b00; padding: 8px 16px; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Investor Dashboard
+    <a href="index.html">Logout</a>
+</header>
+
+<div class="panel">
+
+    <p>Explore, compare and manage your mutual fund investments.</p>
+
+    <div class="btn-row">
+        <button onclick="showSection('explore')">Explore Funds</button>
+        <button onclick="showSection('compare')">Compare Options</button>
+        <button onclick="showSection('portfolio')">My Portfolio</button>
+    </div>
+
+    <!-- Explore Section -->
+    <div id="explore" class="section active">
+        <h2>Explore Mutual Funds</h2>
+
+        <table>
+            <thead>
+                <tr><th>Fund Name</th><th>Category</th><th>Risk</th><th>NAV (₹)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Bluechip Growth Fund</td><td>Equity</td><td>High</td><td>150.75</td></tr>
+                <tr><td>Debt Income Fund</td><td>Debt</td><td>Low</td><td>98.10</td></tr>
+                <tr><td>Balanced Advantage Fund</td><td>Hybrid</td><td>Medium</td><td>125.65</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Compare Section -->
+    <div id="compare" class="section">
+        <h2>Compare Mutual Funds</h2>
+
+        <div class="row">
+            <select id="fundA">
+                <option value="">Select Fund A</option>
+                <option value="Bluechip Growth Fund">Bluechip Growth Fund</option>
+                <option value="Equity Growth Fund">Equity Growth Fund</option>
+                <option value="Balanced Advantage Fund">Balanced Advantage Fund</option>
+                <option value="Debt Income Fund">Debt Income Fund</option>
+            </select>
+
+            <select id="fundB">
+                <option value="">Select Fund B</option>
+                <option value="Bluechip Growth Fund">Bluechip Growth Fund</option>
+                <option value="Equity Growth Fund">Equity Growth Fund</option>
+                <option value="Balanced Advantage Fund">Balanced Advantage Fund</option>
+                <option value="Debt Income Fund">Debt Income Fund</option>
+            </select>
+
+            <button onclick="compareFunds()">Compare</button>
+        </div>
+
+        <table id="compareTable" style="display:none; margin-top:20px;">
+            <thead>
+                <tr><th>Feature</th><th id="colA"></th><th id="colB"></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Category</td><td id="catA"></td><td id="catB"></td></tr>
+                <tr><td>Risk Level</td><td id="riskA"></td><td id="riskB"></td></tr>
+                <tr><td>NAV (₹)</td><td id="navA"></td><td id="navB"></td></tr>
+                <tr><td>3-Year Returns</td><td id="retA"></td><td id="retB"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Portfolio Section -->
+    <div id="portfolio" class="section">
+        <h2>My Investment Portfolio</h2>
+
+        <form id="portfolioForm">
+            <div class="row">
+                <input type="text" id="pFund" placeholder="Fund Name" required>
+                <input type="number" id="pAmount" placeholder="Amount (₹)" required>
+                <input type="date" id="pDate" required>
+            </div>
+            <button type="submit">Add Investment</button>
+        </form>
+
+        <table id="portfolioTable">
+            <thead><tr><th>Fund</th><th>Amount (₹)</th><th>Date</th></tr></thead>
+            <tbody><tr><td>Equity Growth Fund</td><td>20,000</td><td>2025-01-20</td></tr></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// Portfolio add function
+document.getElementById('portfolioForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fund = document.getElementById('pFund').value;
+    const amt = document.getElementById('pAmount').value;
+    const date = document.getElementById('pDate').value;
+
+    const table = document.getElementById('portfolioTable').querySelector('tbody');
+    const row = table.insertRow();
+    row.insertCell(0).textContent = fund;
+    row.insertCell(1).textContent = amt;
+    row.insertCell(2).textContent = date;
+
+    this.reset();
+});
+
+// Comparison Function
+const fundData = {
+    "Bluechip Growth Fund": { category: "Equity", risk: "High", nav: "150.75", return: "19%" },
+    "Equity Growth Fund": { category: "Equity", risk: "High", nav: "125.50", return: "18.5%" },
+    "Balanced Advantage Fund": { category: "Hybrid", risk: "Medium", nav: "125.65", return: "12.2%" },
+    "Debt Income Fund": { category: "Debt", risk: "Low", nav: "98.10", return: "7.4%" }
+};
+
+function compareFunds() {
+    const fundA = document.getElementById("fundA").value;
+    const fundB = document.getElementById("fundB").value;
+
+    if (!fundA || !fundB) { alert("Select two funds."); return; }
+    if (fundA === fundB) { alert("Select two DIFFERENT funds."); return; }
+
+    document.getElementById("colA").textContent = fundA;
+    document.getElementById("colB").textContent = fundB;
+    document.getElementById("catA").textContent = fundData[fundA].category;
+    document.getElementById("catB").textContent = fundData[fundB].category;
+    document.getElementById("riskA").textContent = fundData[fundA].risk;
+    document.getElementById("riskB").textContent = fundData[fundB].risk;
+    document.getElementById("navA").textContent = fundData[fundA].nav;
+    document.getElementById("navB").textContent = fundData[fundB].nav;
+    document.getElementById("retA").textContent = fundData[fundA].return;
+    document.getElementById("retB").textContent = fundData[fundB].return;
+
+    document.getElementById("compareTable").style.display = "table";
+}
+
+</script>
+
+</body>
+</html>
